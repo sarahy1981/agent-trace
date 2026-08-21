@@ -61,3 +61,24 @@ export interface ParsedTrace {
   events: TraceEvent[];
   issues: TraceIssue[];
 }
+
+/** A tool_call joined with the tool_result that answered it. */
+export interface ToolSpan {
+  id: string | null;
+  name: string;
+  ts: number | null;
+  args: unknown;
+  ok: boolean;
+  /** From the result's own `durationMs`, or the call/result timestamp delta. */
+  durationMs: number | null;
+  output: string;
+  error: string | null;
+}
+
+export interface PairedTools {
+  spans: ToolSpan[];
+  /** tool_call events still waiting for a result. */
+  pending: ToolCallEvent[];
+  /** tool_result events whose id (or, lacking one, call order) matched no open call. */
+  orphans: ToolResultEvent[];
+}
