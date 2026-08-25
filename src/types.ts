@@ -82,3 +82,34 @@ export interface PairedTools {
   /** tool_result events whose id (or, lacking one, call order) matched no open call. */
   orphans: ToolResultEvent[];
 }
+
+/** Timing and failure totals for every span of a given tool name. */
+export interface ToolStat {
+  name: string;
+  calls: number;
+  failures: number;
+  totalMs: number;
+  avgMs: number;
+  maxMs: number;
+  /** This tool's share of the combined tool time across all tools, 0..1. */
+  timeShare: number;
+}
+
+export interface TraceStats {
+  eventCounts: Record<TraceEventType, number>;
+  totalEvents: number;
+  /** Latest timestamped event minus earliest, or null when no event carried a timestamp. */
+  wallClockMs: number | null;
+  /** Sum of every tool span's duration. */
+  toolTimeMs: number;
+  /** completedCalls + pendingCalls. */
+  toolCalls: number;
+  completedCalls: number;
+  pendingCalls: number;
+  failedCalls: number;
+  tokensIn: number;
+  tokensOut: number;
+  orphanResults: number;
+  /** One entry per distinct tool name, sorted by totalMs descending. */
+  tools: ToolStat[];
+}
