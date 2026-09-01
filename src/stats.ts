@@ -140,7 +140,7 @@ function renderToolTable(tools: ToolStat[]): string[] {
 }
 
 /** ms >= 1s prints as seconds with millisecond precision, otherwise as whole milliseconds. */
-function formatDuration(ms: number): string {
+export function formatDuration(ms: number): string {
   if (ms >= 1000) return `${(ms / 1000).toFixed(3)}s`;
   return `${Math.round(ms)}ms`;
 }
